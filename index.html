@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f4f1">
+<title>Carlos Moreira — AI Builder & Automações</title>
+<meta name="description" content="Carlos Moreira cria produtos digitais do zero e coloca IA para trabalhar dentro de empresas: agentes, RAG e automações com CRM e WhatsApp.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111413'/%3E%3Cpath d='M22 10v44' stroke='%23f3f4f1' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='8' fill='%23ff4b1f'/%3E%3Cpath d='M36 22h16M36 42h12' stroke='%23f3f4f1' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+/* Fontes servidas da própria pasta: a página não depende de rede. */
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 500; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 500; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 600; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 600; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 700; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 700; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 800; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 800; font-stretch: 100%; font-display: swap; src: url(assets/fonts/bricolage-grotesque-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Geist'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/geist-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Geist'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/geist-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Geist'; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/geist-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Geist'; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/geist-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Geist'; font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/geist-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Geist'; font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/geist-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Geist Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/geist-mono-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Geist Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/geist-mono-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face {font-family: 'Geist Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/geist-mono-latin-ext-1.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face {font-family: 'Geist Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/geist-mono-latin-2.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+</style>
+<style>
+:root{
+  --bg:#f3f4f1;--paper:#fbfbf9;--ink:#111413;--ink2:#4b524e;--line:#cfd3cd;--go:#ff4b1f;--go-deep:#c2330d;--ok:#0b6e45;
+  --display:'Bricolage Grotesque','Segoe UI',sans-serif;--body:'Geist','Segoe UI',sans-serif;--mono:'Geist Mono',Consolas,monospace;
+  --rail:190px;--ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px;scrollbar-color:var(--ink) var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+::selection{background:var(--go);color:var(--ink)}
+img,svg{display:block;max-width:100%}
+img{height:auto}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit;text-decoration-thickness:1.5px;text-underline-offset:.2em;text-decoration-color:var(--go)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--go);outline-offset:4px;border-radius:2px}
+button{font:inherit;color:inherit;cursor:pointer}
+.skip{position:absolute;left:12px;top:-80px;background:var(--ink);color:#fff;padding:10px 14px;z-index:9}
+.skip:focus{top:12px}
+.wrap{max-width:1360px;margin:0 auto;padding:0 clamp(18px,3.4vw,44px)}
+
+/* ---------- topo ---------- */
+.bar{display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);padding:20px 0;border-bottom:2px solid var(--ink);font-weight:500}
+.bar .who{font:700 20px var(--display);text-decoration:none;margin-right:auto;letter-spacing:-.01em}
+.bar nav{display:flex;gap:clamp(14px,2.2vw,30px)}
+.bar nav a{text-decoration:none;padding:10px 0;background:linear-gradient(var(--go),var(--go)) 0 100%/0 2px no-repeat;transition:background-size .35s var(--ease)}
+.bar nav a:hover{background-size:100% 2px}
+.lang{display:flex;border:1px solid var(--ink)}
+.lang button{background:none;border:0;min-height:44px;min-width:44px;padding:0 11px;font:500 13px var(--mono);transition:background .2s,color .2s}
+.lang button+button{border-left:1px solid var(--ink)}
+.lang button:hover{background:#e4e6e0}
+.lang button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+
+/* ---------- abertura ---------- */
+.top{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,5vw,72px);align-items:end;padding:clamp(40px,6vw,76px) 0 clamp(34px,4.6vw,58px)}
+h1{font:800 clamp(3.3rem,8.4vw,6rem)/.9 var(--display);letter-spacing:-.04em}
+h1 span{display:block}
+h1 em{font-style:normal;color:var(--go)}
+.top p{font-size:clamp(1.08rem,1.5vw,1.3rem);line-height:1.5;max-width:32ch;margin-bottom:24px}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:54px;padding:0 26px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;text-decoration:none;transition:background .3s var(--ease)}
+.btn:hover{background:var(--go-deep)}
+.btn svg{width:17px;height:17px;transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.quiet{background:none;border:0;padding:0;min-height:44px;display:inline-flex;align-items:center;font-weight:500;text-decoration:underline;text-decoration-color:var(--go);text-decoration-thickness:1.5px;text-underline-offset:.2em}
+.quiet:hover{color:var(--go-deep)}
+.count{display:flex;flex-wrap:wrap;gap:6px 30px;font:400 13px var(--mono);color:var(--ink2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0}
+.count b{color:var(--ink);font-weight:500}
+
+/* ---------- linha do tempo ---------- */
+.log{position:relative;--p:0px}
+.log:before,.log:after{content:'';position:absolute;left:var(--rail);top:0;width:2px;margin-left:-1px}
+.log:before{bottom:0;background:var(--ink)}
+.log:after{height:var(--p);background:var(--go);width:4px;margin-left:-2px;transition:height .25s linear}
+.rel{position:relative;display:grid;grid-template-columns:var(--rail) minmax(0,4.5fr) minmax(0,7.5fr);column-gap:clamp(22px,3.2vw,48px);padding:clamp(40px,5vw,68px) 0;border-bottom:1px solid var(--line)}
+.rel:after{content:'';position:absolute;left:var(--rail);top:clamp(52px,5.8vw,80px);z-index:1;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--bg);border:3px solid var(--ink);transition:background .5s var(--ease),border-color .5s var(--ease),transform .6s var(--ease)}
+.rel.in:after{background:var(--go);border-color:var(--go);transform:scale(1.15)}
+.rel>*{grid-column:2}
+.head{grid-row:1}
+.meta{grid-column:1;grid-row:1/span 3;padding-right:26px;align-self:start;position:sticky;top:24px;font-size:14px;line-height:1.45;display:grid;gap:14px}
+.meta dt{font:400 12px var(--mono);color:var(--ink2);margin-bottom:1px}
+.meta dd{font-weight:500}
+.meta .stack{font:400 12.5px/1.65 var(--mono);font-weight:400}
+.st{display:inline-flex;align-items:flex-start;gap:7px;font-weight:600}
+.st:before{content:'';flex:none;width:8px;height:8px;margin-top:.45em;border-radius:50%;background:var(--ink2)}
+.st.on{color:var(--ok)}.st.on:before{background:var(--ok)}
+h2{font:700 clamp(2.3rem,4vw,3.3rem)/1 var(--display);letter-spacing:-.035em;text-wrap:balance}
+.head{container-type:inline-size}
+h2.long{white-space:nowrap;font-size:min(clamp(2.3rem,4vw,3.3rem),11.4cqi)}
+.lead{font-size:clamp(1.12rem,1.5vw,1.3rem);line-height:1.35;font-weight:500;margin-top:12px;max-width:26ch;text-wrap:balance}
+.txt{grid-row:2;padding-top:26px}
+h3{font:600 15px var(--body);margin-bottom:4px}
+.txt p{color:var(--ink2);max-width:46ch}
+.txt p+h3{margin-top:18px}
+.view{grid-column:3;grid-row:1/span 3;align-self:start;min-width:0}
+.feat{margin-top:clamp(20px,2.4vw,30px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;font-size:15px;line-height:1.45}
+.feat li{position:relative;padding:12px 0 0 22px;border-top:1px solid var(--ink)}
+.feat li:before,.feat li:after{content:'';position:absolute;left:0;top:21px;width:11px;height:2px;background:var(--go)}
+.feat li:after{transform:rotate(90deg)}
+.cap{font:400 12px/1.5 var(--mono);color:var(--ink2);margin-top:14px}
+
+/* telas */
+.shot{display:block;border:1px solid var(--ink);overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(17,20,19,.12),0 28px 50px -26px rgba(17,20,19,.5);transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.shot:hover{transform:translateY(-5px);box-shadow:0 2px 3px rgba(17,20,19,.14),0 40px 60px -26px rgba(17,20,19,.55)}
+.shot img{width:100%}
+.shot.d{border-radius:10px}.shot.p{border-radius:16px}
+.duo{position:relative;padding:0 12% 4% 0}
+.duo .p{position:absolute;right:0;bottom:0;width:24.5%}
+
+/* desenhos conceituais */
+.draw{border:1px solid var(--ink);border-radius:10px;background:var(--paper);padding:clamp(14px,2.4vw,34px);color:var(--ink)}
+.draw svg{width:100%;height:auto;overflow:visible}
+.draw .b{fill:#fff;stroke:currentColor;stroke-width:1.6}
+.draw .l{fill:none;stroke:currentColor;stroke-width:1.6}
+.draw .d{fill:none;stroke:currentColor;stroke-width:1.2;stroke-dasharray:5 6;opacity:.55}
+.draw .y{fill:none;stroke:var(--go);stroke-width:3}
+.draw text{fill:var(--ink);font:600 18px var(--display);text-anchor:middle}
+.draw text.s{font:400 12.5px var(--mono);fill:var(--ink2)}
+
+.chapter{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:clamp(22px,3.2vw,48px);padding:clamp(48px,6vw,84px) 0 clamp(20px,2.4vw,30px);border-bottom:1px solid var(--line)}
+.chapter>div{grid-column:2;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(16px,3vw,48px);align-items:end}
+.chapter h2{font-size:clamp(2.6rem,5.4vw,4.4rem)}
+.chapter p{color:var(--ink2);max-width:54ch}
+
+/* ---------- como construo / sobre ---------- */
+.how{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(22px,4vw,64px);padding:clamp(56px,7vw,100px) 0}
+.how h2,.about h2{font-size:clamp(2.6rem,5.4vw,4.4rem)}
+.how ol{border-top:2px solid var(--ink)}
+.how li{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:8px 30px;padding:24px 0;border-bottom:1px solid var(--line)}
+.how li strong{font:700 26px/1.1 var(--display);letter-spacing:-.02em}
+.how li p{color:var(--ink2);max-width:58ch}
+.about{background:var(--ink);color:var(--bg);margin-top:0}
+.about .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(22px,4vw,64px);padding-top:clamp(56px,7vw,100px);padding-bottom:clamp(56px,7vw,100px);align-items:start}
+.about .big{font-size:clamp(1.25rem,2vw,1.7rem);line-height:1.38;font-weight:500;max-width:34ch;text-wrap:pretty}
+.about .txt2 p+p{margin-top:16px;color:#c9cec9;max-width:60ch}
+.about h3{font:700 24px/1.1 var(--display);letter-spacing:-.02em;margin:clamp(34px,4vw,52px) 0 8px}
+.about h3+p{max-width:60ch;color:#dfe3df}
+.hats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,3vw,44px);margin-top:26px;border-top:1px solid #4a514d}
+.hats div{padding:18px 0 20px;border-bottom:1px solid #343a37}
+.hats dt{font:700 22px/1.15 var(--display);letter-spacing:-.02em;margin-bottom:5px}
+.hats dt:before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--go);margin-right:10px;vertical-align:.14em}
+.hats dd{color:#c9cec9;font-size:16px;line-height:1.5;max-width:38ch}
+.about .acts{margin-top:34px}
+.about .btn{background:var(--go);color:var(--ink)}
+.about .btn:hover{background:#fff;color:var(--ink)}
+.about ::selection{background:#fff;color:var(--ink)}
+.about a:focus-visible,.about button:focus-visible{outline-color:#fff}
+footer{background:var(--ink);color:#c9cec9}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between;padding-top:22px;padding-bottom:26px;border-top:1px solid #343a37;font:400 12.5px var(--mono)}
+
+/* ---------- responsivo ---------- */
+@media(max-width:1080px){
+  :root{--rail:22px}
+  .rel{grid-template-columns:var(--rail) minmax(0,1fr);column-gap:22px}
+  .rel>*,.view{grid-column:2;grid-row:auto}
+  .meta{position:static;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px;padding:20px 0 0;margin-top:20px;border-top:1px solid var(--line)}
+  .meta .w{grid-column:1/-1}
+  .view{margin-top:24px}
+  .txt{padding-top:22px}
+  .log:before,.log:after,.rel:after{left:7px}
+  .chapter{grid-template-columns:var(--rail) minmax(0,1fr);column-gap:22px}
+  .chapter>div,.top,.how,.about .wrap{grid-template-columns:1fr;align-items:start}
+}
+@media(max-width:700px){
+  body{font-size:16px}
+  .bar{flex-wrap:wrap;gap:6px 16px}
+  .bar nav{order:3;width:100%;justify-content:space-between;border-top:1px solid var(--line)}
+  .feat{grid-template-columns:1fr}
+  .feat li{padding-bottom:12px}
+  .duo{padding:0 0 20% 0}.duo .p{width:36%;right:5%}
+  .how li{grid-template-columns:1fr}
+  .hats{grid-template-columns:1fr}
+  .draw{padding:10px}.draw text{font-size:19px}.draw text.s{display:none}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+@media print{
+  body{font-size:10.5pt;background:#fff}
+  .bar nav,.lang,.acts,.skip,.log:after{display:none!important}
+  .rel{break-inside:avoid;padding:18pt 0}
+  .shot{box-shadow:none}
+  .meta{position:static}
+  .about{background:#fff;color:#111}.about .txt2 p+p,.about h3+p,.hats dd{color:#333}
+  footer{background:#fff;color:#333}
+  h1{font-size:44pt}h2{font-size:26pt}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo" data-t="skip">Pular para o conteúdo</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="go" viewBox="0 0 24 24"><path d="M4 12h15M13 5.5 19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#111413" stroke-width="1.6"/></marker>
+  <marker id="setago" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 9 5 1 9" fill="none" stroke="#ff4b1f" stroke-width="2"/></marker>
+  <pattern id="hach" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v9" stroke="#ff4b1f" stroke-width="3"/></pattern>
+</defs></svg>
+
+<div class="wrap">
+<header class="bar" id="topo">
+  <a class="who" href="#topo">Carlos Moreira</a>
+  <nav aria-label="Principal" data-t-label="navLabel">
+    <a href="#entregas" data-t="navWork">Entregas</a>
+    <a href="#como" data-t="navHow">Como construo</a>
+    <a href="#sobre" data-t="navAbout">Sobre</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Idioma" data-t-label="langLabel">
+    <button data-lang="pt" aria-pressed="true">PT</button><button data-lang="en" aria-pressed="false">EN</button><button data-lang="es" aria-pressed="false">ES</button>
+  </div>
+</header>
+
+<main id="conteudo">
+<section class="top">
+  <h1><span data-t="h1a">Da ideia</span><span data-t="h1b">ao <em>sistema.</em></span></h1>
+  <div>
+    <p data-t="say">Crio produtos digitais do zero e coloco IA para trabalhar dentro de empresas: agentes, RAG e automações com CRM e WhatsApp.</p>
+    <div class="acts">
+      <a class="btn" href="https://www.linkedin.com/in/chmj7/" target="_blank" rel="noopener noreferrer"><span data-t="cta">Conversar no LinkedIn</span><svg aria-hidden="true"><use href="#go"/></svg></a>
+      <a class="quiet" href="#entregas" data-t="see">Ver as entregas</a>
+    </div>
+  </div>
+</section>
+<p class="count"><span data-t="count1"><b>3</b> produtos próprios construídos do zero</span><span data-t="count2"><b>4</b> sistemas construídos no Atomic Group</span><span data-t="count3">Administrador, empreendedor e investidor · Florianópolis, Brasil</span></p>
+
+<div class="log" id="entregas">
+<!-- ============ ORGADAY ============ -->
+<article class="rel">
+  <div class="head"><h2>OrgaDay</h2><p class="lead" data-t="orgaLead">A agenda da família que se organiza pelo WhatsApp.</p></div>
+  <div class="view">
+    <div class="duo">
+      <a class="shot d" href="assets/orgaday-agenda.webp" target="_blank" rel="noopener"><img src="assets/orgaday-agenda.webp" width="2880" height="1852" alt="OrgaDay: agenda da semana com compromissos de trabalho, pessoais e da família" data-t-alt="altOrgaWeek" fetchpriority="high"></a>
+      <a class="shot p" href="assets/orgaday-whatsapp.webp" target="_blank" rel="noopener"><img src="assets/orgaday-whatsapp.webp" width="780" height="1740" alt="Conversa no WhatsApp com o assistente do OrgaDay criando um compromisso" data-t-alt="altOrgaWa"></a>
+    </div>
+    <p class="cap" data-t="sim">Telas simuladas a partir do produto real, com dados fictícios.</p>
+    <ul class="feat">
+      <li data-t="orgaN1">Semana em três períodos, com agendas separadas para pessoal, trabalho e família.</li>
+      <li data-t="orgaN2">Mensagem ou áudio vira compromisso. Se faltar data ou hora, o assistente pergunta antes de salvar.</li>
+      <li data-t="orgaN3">Lembretes automáticos: uma hora antes, resumo diário às 07:00 e semanal no domingo.</li>
+    </ul>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kStatus">Status</dt><dd><span class="st on" data-t="stLive">No ar</span></dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleSolo">Criação e desenvolvimento completo</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">React · TypeScript<br>Node/Express<br>PostgreSQL<br>Evolution API · Groq<br>Mercado Pago</dd></div>
+    <div class="w"><dd><a href="https://orgaday.up.railway.app/" target="_blank" rel="noopener noreferrer" data-t="open">Abrir o produto</a></dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hProblem">O problema</h3>
+    <p data-t="orgaProblem">O compromisso chega por mensagem e alguém precisa copiar para a agenda. Quase sempre fica para depois.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="orgaBuilt">O produto inteiro, sozinho: aplicação web, backend, cobrança por PIX e cartão e o assistente que entende texto e áudio no WhatsApp para criar, editar e lembrar compromissos.</p>
+  </div>
+</article>
+
+<!-- ============ CESTALEVE ============ -->
+<article class="rel">
+  <div class="head"><h2>CestaLeve</h2><p class="lead" data-t="cestaLead">A lista de compras comparada em 7 fontes de supermercado de Florianópolis.</p></div>
+  <div class="view">
+    <div class="duo">
+      <a class="shot d" href="assets/cestaleve-home.webp" target="_blank" rel="noopener"><img src="assets/cestaleve-home.webp" width="2880" height="1852" loading="lazy" alt="CestaLeve: página inicial com a lista de compras montada" data-t-alt="altCestaHome"></a>
+      <a class="shot p" href="assets/cestaleve-resultado.webp" target="_blank" rel="noopener"><img src="assets/cestaleve-resultado.webp" width="780" height="1740" loading="lazy" alt="CestaLeve no celular: placar de preços por supermercado" data-t-alt="altCestaRes"></a>
+    </div>
+    <p class="cap" data-t="sim">Telas simuladas a partir do produto real, com dados fictícios.</p>
+    <ul class="feat">
+      <li data-t="cestaN1">Lista de até 20 produtos. Dá para colar a lista direto do WhatsApp.</li>
+      <li data-t="cestaN2">Placar por loja: total, itens encontrados e destaque só quando a comparação é justa.</li>
+      <li data-t="cestaN3">Checklist para a hora da compra, salvo no aparelho e disponível sem internet.</li>
+    </ul>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kStatus">Status</dt><dd><span class="st on" data-t="stPilot">Piloto no ar</span></dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleSolo">Criação e desenvolvimento completo</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">React · TypeScript<br>Vite · Node.js<br>PostgreSQL · PWA</dd></div>
+    <div class="w"><dd><a href="https://www.cestaleve.com.br/" target="_blank" rel="noopener noreferrer" data-t="open">Abrir o produto</a></dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hProblem">O problema</h3>
+    <p data-t="cestaProblem">Comparar preço de mercado é repetir a mesma busca loja por loja e ainda conferir se a embalagem é a mesma.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="cestaBuilt">O produto inteiro, sozinho: interface para celular, serviço que consulta as 7 fontes, verificação de embalagem equivalente antes de apontar o menor preço e um checklist que funciona offline dentro do mercado.</p>
+  </div>
+</article>
+
+<!-- ============ RICOOS ============ -->
+<article class="rel">
+  <div class="head"><h2>RicoOS</h2><p class="lead" data-t="ricoLead">Minha central de trabalho: tarefas, agenda, e-mails e WhatsApp em um só painel.</p></div>
+  <div class="view">
+    <a class="shot d" href="assets/ricoos-agora.webp" target="_blank" rel="noopener"><img src="assets/ricoos-agora.webp" width="2880" height="1852" loading="lazy" alt="RicoOS: painel do dia com radar, tarefas e o assistente Enzo aberto" data-t-alt="altRico"></a>
+    <p class="cap" data-t="sim1">Tela simulada a partir do sistema real, com dados fictícios.</p>
+    <ul class="feat">
+      <li data-t="ricoN1">Radar do que pede próximo passo: conflitos de agenda, retornos parados e mensagens sem resposta.</li>
+      <li data-t="ricoN2">Uma fila única de tarefas de todas as frentes, com a próxima ação em destaque.</li>
+      <li data-t="ricoN3">O Enzo consulta e executa: lista, cria e conclui tarefas por conversa, com três provedores de LLM em fallback.</li>
+    </ul>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kStatus">Status</dt><dd><span class="st" data-t="private">Uso privado</span></dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleSolo">Criação e desenvolvimento completo</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">Node.js · SQLite<br>JavaScript<br>Evolution API<br>Gmail · Outlook<br>Zoho · Dropbox<br>Google Agenda</dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hProblem">O problema</h3>
+    <p data-t="ricoProblem">Demandas espalhadas por várias frentes, caixas de e-mail e grupos. Recuperar o contexto custava mais que fazer a tarefa.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="ricoBuilt">Um sistema próprio, sem framework: painel local sobre SQLite, triagem de e-mail e WhatsApp, plano do dia encaixado na agenda e o Enzo, um assistente com 17 ferramentas que pede confirmação antes de agir e permite desfazer.</p>
+  </div>
+</article>
+
+<!-- ============ ATOMIC GROUP ============ -->
+<div class="chapter"><div>
+  <h2 data-t="atomicTitle">No Atomic Group</h2>
+  <p data-t="atomicIntro">Na empresa o papel é o mesmo: pego a ideia e construo o sistema inteiro. As telas e os dados pertencem ao Atomic Group, então aqui os projetos aparecem em desenho.</p>
+</div></div>
+
+<article class="rel">
+  <div class="head"><h2>Atomic.Chat</h2><p class="lead" data-t="chatLead">O chat interno da empresa, com agentes de IA trabalhando junto do time.</p></div>
+  <div class="view">
+    <div class="draw" role="img" aria-label="Esquema: agentes de IA no centro, ligados ao chat da equipe, ao Bitrix24, aos modelos de IA e aos dados da empresa" data-t-label="drawChat">
+      <svg viewBox="0 0 640 380">
+        <circle class="d" cx="320" cy="190" r="132"/>
+        <path class="l" d="M320 76V124M176 190H200M440 190H464M320 256V304" marker-start="url(#seta)" marker-end="url(#seta)"/>
+        <rect class="b" x="200" y="124" width="240" height="132"/>
+        <path class="y" d="M200 124h240"/>
+        <text x="320" y="186" data-t="dAgents">Agentes de IA</text><text class="s" x="320" y="212" data-t="dAgentsS">conferem, avisam, executam</text>
+        <rect class="b" x="215" y="30" width="210" height="46"/><text x="320" y="60" data-t="dModels">Modelos de IA</text>
+        <rect class="b" x="0" y="152" width="176" height="76"/><text x="88" y="186" data-t="dTeam">Chat da equipe</text><text class="s" x="88" y="210" data-t="dTeamS">canais e comandos</text>
+        <rect class="b" x="464" y="152" width="176" height="76"/><text x="552" y="186">Bitrix24</text><text class="s" x="552" y="210" data-t="dCrmS">CRM e tarefas</text>
+        <rect class="b" x="205" y="304" width="230" height="46"/><text x="320" y="334" data-t="dData">Dados da empresa</text>
+      </svg>
+    </div>
+    <p class="cap" data-t="concept">Desenho conceitual. Não reproduz a interface interna.</p>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kKind">Tipo</dt><dd><span class="st" data-t="wip">Em desenvolvimento</span></dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleChat">Construção completa</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">Rocket.Chat · Python<br>Bitrix24 · MCP<br>BigQuery · MongoDB<br>Docker</dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hDoes">O que faz</h3>
+    <p data-t="chatDoes">Os agentes vivem nos canais do time: conferem todo dia a qualidade dos dados do CRM, preparam as rotinas de acompanhamento da gestão e transformam uma mensagem em tarefa no Bitrix24.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="chatMine">A plataforma inteira: os agentes, as rotinas agendadas, o controle de quem acessa cada agente e as integrações com o Bitrix24 e com os dados da empresa.</p>
+  </div>
+</article>
+
+<article class="rel">
+  <div class="head"><h2 class="long">AtomicGrowth.AI</h2><p class="lead" data-t="growLead">Um copilot que responde com o trecho exato da aula.</p></div>
+  <div class="view">
+    <div class="draw" role="img" aria-label="Esquema: videoaulas são transcritas e divididas em trechos por assunto; a pergunta busca nesses trechos e a resposta indica a aula e o minuto" data-t-label="drawGrow">
+      <svg viewBox="0 0 600 330">
+        <path class="l" d="M168 62H212M388 62H432M168 262H212M388 262H432" marker-end="url(#seta)"/>
+        <path class="y" d="M516 100V180H300V222" marker-end="url(#setago)"/>
+        <rect class="b" x="6" y="24" width="162" height="76"/><text x="87" y="58" data-t="dVideo">Videoaulas</text><text class="s" x="87" y="82" data-t="dVideoS">biblioteca do curso</text>
+        <rect class="b" x="212" y="24" width="176" height="76"/><text x="300" y="58" data-t="dTrans">Transcrição</text><text class="s" x="300" y="82" data-t="dTransS">texto com minutagem</text>
+        <rect class="b" x="432" y="24" width="162" height="76"/><path class="y" d="M432 24h162"/><text x="513" y="58" data-t="dChunks">Trechos</text><text class="s" x="513" y="82" data-t="dChunksS">por assunto</text>
+        <rect class="b" x="6" y="224" width="162" height="76"/><text x="87" y="258" data-t="dAsk">Pergunta</text><text class="s" x="87" y="282" data-t="dAskS">linguagem natural</text>
+        <rect class="b" x="212" y="224" width="176" height="76"/><text x="300" y="258" data-t="dSearch">Busca</text><text class="s" x="300" y="282">RAG</text>
+        <rect class="b" x="432" y="224" width="162" height="76"/><text x="513" y="258" data-t="dAnswer">Resposta</text><text class="s" x="513" y="282" data-t="dAnswerS">aula + minuto</text>
+      </svg>
+    </div>
+    <p class="cap" data-t="concept">Desenho conceitual. Não reproduz a interface interna.</p>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kKind">Tipo</dt><dd data-t="kindPlat">Plataforma da empresa</dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleGrow">Construção completa</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">TanStack Start · React<br>Supabase<br>Cloudflare Workers<br>Panda Video · RAG</dd></div>
+    <div class="w"><dd><a href="https://www.linkedin.com/feed/update/urn:li:activity:7510669842308603904/" target="_blank" rel="noopener noreferrer" data-t="post">Publicação no LinkedIn</a></dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hDoes">O que faz</h3>
+    <p data-t="growDoes">Achar uma resposta em uma biblioteca de videoaulas exige saber qual aula e qual minuto. O copilot busca no conteúdo transcrito (RAG), responde mostrando a fonte e abre a aula no minuto certo.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="growMine">O copilot de ponta a ponta: a transcrição das aulas, a organização dos trechos por assunto, a busca e a resposta que abre a aula no minuto certo.</p>
+  </div>
+</article>
+
+<article class="rel">
+  <div class="head"><h2>AtomicOS</h2><p class="lead" data-t="osLead">A plataforma que acompanha cada membro do clube de empresários.</p></div>
+  <div class="view">
+    <div class="draw" role="img" aria-label="Esquema: onboarding, índice de saúde, metas trimestrais e sessões de conselho ligados à plataforma central" data-t-label="drawOs">
+      <svg viewBox="0 0 640 300">
+        <path class="l" d="M216 84 246 110M424 84 394 110M216 216 246 190M424 216 394 190"/>
+        <rect class="b" x="230" y="110" width="180" height="80"/><path class="y" d="M230 110h180"/><text x="320" y="158">AtomicOS</text>
+        <rect class="b" x="0" y="34" width="216" height="56"/><text x="108" y="69">Onboarding</text>
+        <rect class="b" x="424" y="34" width="216" height="56"/><text x="532" y="69" data-t="dHealth">Índice de saúde</text>
+        <rect class="b" x="0" y="210" width="216" height="56"/><text x="108" y="245" data-t="dGoals">Metas trimestrais</text>
+        <rect class="b" x="424" y="210" width="216" height="56"/><text x="532" y="245" data-t="dBoard">Sessões de board</text>
+      </svg>
+    </div>
+    <p class="cap" data-t="concept">Desenho conceitual. Não reproduz a interface interna.</p>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kKind">Tipo</dt><dd data-t="kindPlat">Plataforma da empresa</dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleOs">Construção completa</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">React · TypeScript<br>Supabase · Z-API<br>Google Calendar<br>Meet · Drive</dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hDoes">O que faz</h3>
+    <p data-t="osDoes">Reúne a jornada do membro em um só lugar: onboarding, um índice de saúde que antecipa risco de saída, metas trimestrais e sessões de conselho com ata gerada por IA.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="osMine">A plataforma inteira: o acompanhamento dos membros, o índice de saúde, as metas, as sessões de conselho e as automações com IA que tiram trabalho manual do time.</p>
+  </div>
+</article>
+
+<article class="rel">
+  <div class="head"><h2 data-t="restTitle">Controle de Descanso</h2><p class="lead" data-t="restLead">Pedido, saldo e dupla aprovação do descanso remunerado, no lugar da planilha.</p></div>
+  <div class="view">
+    <div class="draw" role="img" aria-label="Esquema: linha do tempo de pessoas por semana, com os períodos de descanso hachurados" data-t-label="drawRest">
+      <svg viewBox="0 0 600 300">
+        <rect class="b" x="110" y="40" width="480" height="240"/>
+        <rect x="270" y="40" width="160" height="80" fill="url(#hach)"/><rect x="430" y="120" width="160" height="80" fill="url(#hach)"/><rect x="110" y="200" width="80" height="80" fill="url(#hach)"/>
+        <path class="l" d="M110 120H590M110 200H590M190 40V280M270 40V280M350 40V280M430 40V280M510 40V280"/>
+        <text class="s" x="60" y="85">A</text><text class="s" x="60" y="165">B</text><text class="s" x="60" y="245">C</text>
+        <text class="s" x="150" y="26">1</text><text class="s" x="230" y="26">2</text><text class="s" x="310" y="26">3</text><text class="s" x="390" y="26">4</text><text class="s" x="470" y="26">5</text><text class="s" x="550" y="26">6</text>
+      </svg>
+    </div>
+    <p class="cap" data-t="concept">Desenho conceitual. Não reproduz a interface interna.</p>
+  </div>
+  <dl class="meta">
+    <div><dt data-t="kKind">Tipo</dt><dd data-t="kindTool">Ferramenta interna</dd></div>
+    <div><dt data-t="kMyRole">Meu papel</dt><dd data-t="roleRest">Construção completa</dd></div>
+    <div class="w"><dt>Stack</dt><dd class="stack">TanStack Start<br>React 19 · Tailwind 4<br>shadcn/ui<br>Supabase · Postgres</dd></div>
+  </dl>
+  <div class="txt">
+    <h3 data-t="hDoes">O que faz</h3>
+    <p data-t="restDoes">Substitui o processo manual de planilha e Bitrix. Cada pessoa vê o próprio saldo e faz o pedido, que passa pelo líder e depois pelo RH. O painel mostra quem está fora em cada unidade de negócio, e a aprovação dispara os e-mails sozinha.</p>
+    <h3 data-t="hBuilt">O que construí</h3>
+    <p data-t="restMine">A plataforma inteira: regras de saldo e prazos, fluxo de aprovação, perfis de acesso, painel do RH e notificações.</p>
+  </div>
+</article>
+</div>
+
+<section class="how" id="como">
+  <h2 data-t="howTitle">Como construo</h2>
+  <ol>
+    <li><strong data-t="how1T">Agentes que executam</strong><p data-t="how1">Assistentes que fazem, não só respondem: ferramentas com confirmação e desfazer no RicoOS, texto e áudio virando agenda no OrgaDay, busca em videoaulas no AtomicGrowth.AI.</p></li>
+    <li><strong data-t="how2T">Integrações de verdade</strong><p data-t="how2">WhatsApp por Evolution API e Z-API, Bitrix24, Google Workspace, Mercado Pago, e-mail e calendário. O sistema novo conversa com o que a empresa já usa.</p></li>
+    <li><strong data-t="how3T">Produto de ponta a ponta</strong><p data-t="how3">Da ideia ao deploy: interface, backend, banco de dados, cobrança e operação. Claude e ChatGPT são ferramentas de trabalho diárias no desenvolvimento.</p></li>
+  </ol>
+</section>
+</main>
+</div>
+
+<section class="about" id="sobre">
+  <div class="wrap">
+    <h2 data-t="aboutTitle">Prazer, Carlos.</h2>
+    <div class="txt2">
+      <p class="big" data-t="aboutBig">Sou Analista de IA e Automações no Atomic Group, em Florianópolis, e crio produtos digitais próprios.</p>
+      <p data-t="about1">Meu trabalho junta visão de negócio, desenvolvimento de produto e integração de ferramentas. Nos projetos próprios, pego problemas do dia a dia, como organizar compromissos, comparar preços e não perder o contexto do trabalho, e levo até um produto funcionando.</p>
+      <h3 data-t="viewTitle">Visão de mercado</h3>
+      <p data-t="viewBody">Tecnologia só importa quando muda o resultado do negócio. Antes de construir, quero saber quem paga pelo problema, quanto ele custa hoje e o que o mercado já oferece. É isso que decide o que vale a pena automatizar.</p>
+      <dl class="hats">
+        <div><dt data-t="hat1T">Administrador</dt><dd data-t="hat1">Leio processo, custo e indicador antes de escrever a primeira linha de código.</dd></div>
+        <div><dt data-t="hat2T">Empreendedor</dt><dd data-t="hat2">Crio e opero produtos próprios, da ideia à cobrança, e sei o que é responder pelo resultado.</dd></div>
+        <div><dt data-t="hat3T">Investidor</dt><dd data-t="hat3">Trato cada projeto como alocação de capital: risco, retorno e prazo.</dd></div>
+        <div><dt data-t="hat4T">Entusiasta de Bitcoin</dt><dd data-t="hat4">Estudo Bitcoin pelo que ele ensina sobre incentivos, escassez e sistemas abertos.</dd></div>
+      </dl>
+      <div class="acts">
+        <a class="btn" href="https://www.linkedin.com/in/chmj7/" target="_blank" rel="noopener noreferrer"><span data-t="cta">Conversar no LinkedIn</span><svg aria-hidden="true"><use href="#go"/></svg></a>
+        <button class="quiet" id="imprimir" data-t="print">Imprimir portfólio</button>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">
+  <span>© <span id="ano">2026</span> Carlos Henrique Moreira Jr · Florianópolis, Brasil</span>
+  <a href="#topo" data-t="top">Voltar ao topo</a>
+</div></footer>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Carlos Henrique Moreira Jr","sameAs":["https://www.linkedin.com/in/chmj7/"],"jobTitle":"AI Builder & Automations","worksFor":{"@type":"Organization","name":"Atomic Group"},"address":{"@type":"PostalAddress","addressLocality":"Florianópolis","addressCountry":"BR"}}</script>
+<script>
+const T={
+en:{restDoes:"It replaces the manual spreadsheet-and-Bitrix process. Each person sees their own balance and files the request, which goes to the team lead and then to HR. The panel shows who is away in each business unit, and approval sends the emails on its own.",skip:"Skip to content",kStatus:"Status",langLabel:"Language",navLabel:"Main",navWork:"Work",see:"See the work",count1:"<b>3</b> own products built from scratch",count2:"<b>4</b> systems built at Atomic Group",count3:"Administrator, entrepreneur and investor · Florianópolis, Brazil",stLive:"Live",stPilot:"Pilot live",stPub:"Published",internal:"Internal use",open:"Open the product",navHow:"How I build",navAbout:"About",
+h1a:"From idea",h1b:"to <em>system.</em>",
+say:"I build digital products from scratch and put AI to work inside companies: agents, RAG and automations with CRM and WhatsApp.",
+cta:"Talk on LinkedIn",
+kAuthor:"Author",kRole:"Role",role:"AI and Automation Analyst · Atomic Group",kContent:"Contents",content:"3 own products on screen · 4 company projects as drawings",kPlace:"Location",kSheet:"Sheet",
+kProject:"Project",own:"Own product",kMyRole:"My role",roleSolo:"Concept and full development",
+hProblem:"The problem",hBuilt:"What I built",hDoes:"What it does",hMine:"Where I work",
+sim:"Simulated screens based on the real product, with fictitious data.",sim1:"Simulated screen based on the real system, with fictitious data.",
+orgaLead:"The family calendar that organizes itself through WhatsApp.",
+orgaProblem:"Appointments arrive in messages and someone has to copy them into a calendar. It usually gets left for later.",
+orgaBuilt:"The whole product, on my own: web app, backend, PIX and card billing, and the assistant that understands text and voice on WhatsApp to create, edit and remind appointments.",
+orgaN1:"The week in three periods, with separate calendars for personal, work and family.",
+orgaN2:"A message or voice note becomes an appointment. If the date or time is missing, the assistant asks before saving.",
+orgaN3:"Automatic reminders: one hour before, a daily summary at 07:00 and a weekly one on Sunday.",
+liveOrga:"Live · open",
+cestaLead:"Your shopping list compared across 7 supermarket sources in Florianópolis.",
+cestaProblem:"Comparing grocery prices means repeating the same search store by store, then checking that the pack size matches.",
+cestaBuilt:"The whole product, on my own: mobile interface, a service that queries the 7 sources, a pack-size equivalence check before naming the lowest price, and a checklist that works offline inside the store.",
+cestaN1:"A list of up to 20 products. You can paste it straight from WhatsApp.",
+cestaN2:"A scoreboard per store: total, items found, and a highlight only when the comparison is fair.",
+cestaN3:"A checklist for shopping time, saved on the device and available without internet.",
+liveCesta:"Pilot live · open",
+ricoLead:"My work hub: tasks, calendar, email and WhatsApp in a single panel.",
+ricoProblem:"Requests scattered across several fronts, inboxes and groups. Recovering context cost more than doing the task.",
+ricoBuilt:"My own system, no framework: a local panel on SQLite, email and WhatsApp triage, a daily plan fitted into the calendar, and Enzo, an assistant with 17 tools that asks for confirmation before acting and supports undo.",
+ricoN1:"A radar of what needs a next step: calendar conflicts, stalled follow-ups and unanswered messages.",
+ricoN2:"One task queue across every front, with the next action on top.",
+ricoN3:"Enzo looks things up and acts: lists, creates and completes tasks by chat, with three LLM providers in fallback.",
+private:"Private use",
+atomicTitle:"At Atomic Group",
+atomicIntro:"At the company the role is the same: I take the idea and build the whole system. The screens and data belong to Atomic Group, so here the projects appear as drawings.",
+drawChat:"Diagram: AI agents at the centre, connected to the team chat, Bitrix24, AI models and company data",
+dAgents:"AI agents",dAgentsS:"check, alert, execute",
+chatLead:"The company's internal chat, with AI agents working alongside the team.",
+chatDoes:"The agents live in the team's channels: every day they check CRM data quality, prepare management follow-up routines and turn a message into a Bitrix24 task.",
+chatMine:"The whole platform: the agents, the scheduled routines, the control over who can use each agent, and the integrations with Bitrix24 and company data.",
+roleChat:"Full build",kView:"View",concept:"Conceptual drawing. It does not reproduce the internal interface.",conceptS:"Conceptual drawing",wip:"In development",
+growLead:"A copilot that answers with the exact part of the lesson.",
+growDoes:"Finding an answer in a video course library means knowing which lesson and which minute. The copilot searches the transcribed content (RAG), answers with its source and opens the lesson at the right minute.",
+growMine:"The copilot end to end: lesson transcription, organizing the segments by topic, the search, and the answer that opens the lesson at the right minute.",
+drawGrow:"Diagram: video lessons are transcribed and split into segments by topic; the question searches those segments and the answer names the lesson and minute",
+dVideo:"Video lessons",dVideoS:"course library",dTrans:"Transcription",dTransS:"text with timestamps",dChunks:"Segments",dChunksS:"by topic",dAsk:"Question",dAskS:"natural language",dSearch:"Search",dAnswer:"Answer",dAnswerS:"lesson + minute",
+roleGrow:"Full build",kRef:"Reference",post:"LinkedIn post",
+osLead:"The platform that follows each member of the business owners' club.",
+drawOs:"Diagram: onboarding, health index, quarterly goals and board sessions connected to the central platform",
+dProc:"Processes",dRout:"Routines",dPeople:"People",dInd:"Metrics",
+osMine:"The whole platform: member tracking, the health index, goals, board sessions and the AI automations that take manual work off the team.",
+roleOs:"Full build",
+restTitle:"Time-off Control",restLead:"Requests, balance and two-step approval of paid time off, replacing the spreadsheet.",
+drawRest:"Diagram: a timeline of people by week with the time-off periods hatched",
+restMine:"The whole platform: balance and deadline rules, approval flow, access profiles, the HR panel and notifications.",
+roleRest:"Full build",
+howTitle:"How I build",
+how1T:"Agents that act",how1:"Assistants that do things, not just answer: tools with confirmation and undo in RicoOS, text and voice becoming calendar entries in OrgaDay, search over video lessons in AtomicGrowth.AI.",
+how2T:"Real integrations",how2:"WhatsApp through Evolution API and Z-API, Bitrix24, Google Workspace, Mercado Pago, email and calendar. The new system talks to what the company already uses.",
+how3T:"Product end to end",how3:"From idea to deploy: interface, backend, database, billing and operations. Claude and ChatGPT are daily working tools in development.",
+aboutTitle:"Hi, I'm Carlos.",
+aboutBig:"I'm an AI and Automation Analyst at Atomic Group, in Florianópolis, and I build my own digital products.",
+about1:"My work combines business sense, product development and tool integration. In my own projects I take everyday problems, like organizing appointments, comparing prices and keeping work context, and carry them through to a working product.",
+endTitle:"Shall we talk?",print:"Print portfolio",kContact:"Contact",kLangs:"Site languages",kRev:"Revision",top:"Back to top",
+altOrgaWeek:"OrgaDay: weekly calendar with work, personal and family appointments",altOrgaWa:"WhatsApp chat with the OrgaDay assistant creating an appointment",altCestaRes:"CestaLeve on a phone: price scoreboard by supermarket",altCestaHome:"CestaLeve: home page with the shopping list filled in",altRico:"RicoOS: daily panel with radar, tasks and the Enzo assistant open",
+desc:"Carlos Moreira builds digital products from scratch and puts AI to work inside companies: agents, RAG and automations with CRM and WhatsApp.",
+dModels:"AI models",
+dTeam:"Team chat",
+dTeamS:"channels, commands",
+dCrmS:"CRM and tasks",
+dData:"Company data",
+kKind:"Type",
+kindPlat:"Company platform",
+kindTool:"Internal tool",
+osDoes:"It brings the member's journey into one place: onboarding, a health index that anticipates churn risk, quarterly goals and board sessions with AI-generated minutes.",
+dHealth:"Health index",
+dGoals:"Quarterly goals",
+dBoard:"Board sessions",
+viewTitle:"Market view",
+viewBody:"Technology only matters when it changes the business result. Before building, I want to know who pays for the problem, what it costs today and what the market already offers. That is what decides what is worth automating.",
+hat1T:"Business administrator",
+hat1:"I read the process, the cost and the metric before writing the first line of code.",
+hat2T:"Entrepreneur",
+hat2:"I create and run my own products, from idea to billing, and I know what it means to answer for the result.",
+hat3T:"Investor",
+hat3:"I treat every project as capital allocation: risk, return and time horizon.",
+hat4T:"Bitcoin enthusiast",
+hat4:"I study Bitcoin for what it teaches about incentives, scarcity and open systems."},
+es:{restDoes:"Sustituye el proceso manual de hoja de cálculo y Bitrix. Cada persona ve su propio saldo y hace la solicitud, que pasa por el líder y después por RR. HH. El panel muestra quién está fuera en cada unidad de negocio, y la aprobación envía los correos sola.",skip:"Saltar al contenido",kStatus:"Estado",langLabel:"Idioma",navLabel:"Principal",navWork:"Entregas",see:"Ver las entregas",count1:"<b>3</b> productos propios construidos desde cero",count2:"<b>4</b> sistemas construidos en Atomic Group",count3:"Administrador, emprendedor e inversor · Florianópolis, Brasil",stLive:"En línea",stPilot:"Piloto en línea",stPub:"Publicado",internal:"Uso interno",open:"Abrir el producto",navHow:"Cómo construyo",navAbout:"Sobre mí",
+h1a:"De la idea",h1b:"al <em>sistema.</em>",
+say:"Creo productos digitales desde cero y pongo la IA a trabajar dentro de las empresas: agentes, RAG y automatizaciones con CRM y WhatsApp.",
+cta:"Hablar en LinkedIn",
+kAuthor:"Autor",kRole:"Función",role:"Analista de IA y Automatizaciones · Atomic Group",kContent:"Contenido",content:"3 productos propios en pantalla · 4 proyectos corporativos en dibujo",kPlace:"Lugar",kSheet:"Lámina",
+kProject:"Proyecto",own:"Producto propio",kMyRole:"Mi papel",roleSolo:"Creación y desarrollo completo",
+hProblem:"El problema",hBuilt:"Lo que construí",hDoes:"Qué hace",hMine:"Dónde actúo",
+sim:"Pantallas simuladas a partir del producto real, con datos ficticios.",sim1:"Pantalla simulada a partir del sistema real, con datos ficticios.",
+orgaLead:"La agenda familiar que se organiza por WhatsApp.",
+orgaProblem:"El compromiso llega por mensaje y alguien tiene que copiarlo a la agenda. Casi siempre queda para después.",
+orgaBuilt:"El producto entero, yo solo: aplicación web, backend, cobro por PIX y tarjeta y el asistente que entiende texto y audio en WhatsApp para crear, editar y recordar compromisos.",
+orgaN1:"La semana en tres periodos, con agendas separadas para lo personal, el trabajo y la familia.",
+orgaN2:"Un mensaje o un audio se convierte en compromiso. Si falta la fecha o la hora, el asistente pregunta antes de guardar.",
+orgaN3:"Recordatorios automáticos: una hora antes, resumen diario a las 07:00 y semanal el domingo.",
+liveOrga:"En línea · abrir",
+cestaLead:"La lista de compras comparada en 7 fuentes de supermercados de Florianópolis.",
+cestaProblem:"Comparar precios de supermercado es repetir la misma búsqueda tienda por tienda y además comprobar que el envase sea el mismo.",
+cestaBuilt:"El producto entero, yo solo: interfaz para móvil, servicio que consulta las 7 fuentes, verificación de envase equivalente antes de señalar el menor precio y una checklist que funciona sin conexión dentro de la tienda.",
+cestaN1:"Lista de hasta 20 productos. Se puede pegar directamente desde WhatsApp.",
+cestaN2:"Marcador por tienda: total, artículos encontrados y destaque solo cuando la comparación es justa.",
+cestaN3:"Checklist para el momento de la compra, guardada en el dispositivo y disponible sin internet.",
+liveCesta:"Piloto en línea · abrir",
+ricoLead:"Mi central de trabajo: tareas, agenda, correos y WhatsApp en un solo panel.",
+ricoProblem:"Demandas repartidas entre varios frentes, bandejas de correo y grupos. Recuperar el contexto costaba más que hacer la tarea.",
+ricoBuilt:"Un sistema propio, sin framework: panel local sobre SQLite, clasificación de correo y WhatsApp, plan del día encajado en la agenda y Enzo, un asistente con 17 herramientas que pide confirmación antes de actuar y permite deshacer.",
+ricoN1:"Radar de lo que pide un siguiente paso: conflictos de agenda, seguimientos parados y mensajes sin respuesta.",
+ricoN2:"Una única cola de tareas de todos los frentes, con la próxima acción destacada.",
+ricoN3:"Enzo consulta y ejecuta: lista, crea y completa tareas por conversación, con tres proveedores de LLM en fallback.",
+private:"Uso privado",
+atomicTitle:"En Atomic Group",
+atomicIntro:"En la empresa el papel es el mismo: tomo la idea y construyo el sistema entero. Las pantallas y los datos pertenecen a Atomic Group, así que aquí los proyectos aparecen en dibujo.",
+drawChat:"Esquema: agentes de IA en el centro, conectados al chat del equipo, a Bitrix24, a los modelos de IA y a los datos de la empresa",
+dAgents:"Agentes de IA",dAgentsS:"revisan, avisan, ejecutan",
+chatLead:"El chat interno de la empresa, con agentes de IA trabajando junto al equipo.",
+chatDoes:"Los agentes viven en los canales del equipo: revisan cada día la calidad de los datos del CRM, preparan las rutinas de seguimiento de la gestión y convierten un mensaje en una tarea en Bitrix24.",
+chatMine:"La plataforma entera: los agentes, las rutinas programadas, el control de quién accede a cada agente y las integraciones con Bitrix24 y con los datos de la empresa.",
+roleChat:"Construcción completa",kView:"Vista",concept:"Dibujo conceptual. No reproduce la interfaz interna.",conceptS:"Dibujo conceptual",wip:"En desarrollo",
+growLead:"Un copilot que responde con el fragmento exacto de la clase.",
+growDoes:"Encontrar una respuesta en una biblioteca de videoclases exige saber qué clase y qué minuto. El copilot busca en el contenido transcrito (RAG), responde mostrando la fuente y abre la clase en el minuto exacto.",
+growMine:"El copilot de punta a punta: la transcripción de las clases, la organización de los fragmentos por tema, la búsqueda y la respuesta que abre la clase en el minuto exacto.",
+drawGrow:"Esquema: las videoclases se transcriben y se dividen en fragmentos por tema; la pregunta busca en esos fragmentos y la respuesta indica la clase y el minuto",
+dVideo:"Videoclases",dVideoS:"biblioteca del curso",dTrans:"Transcripción",dTransS:"texto con minutaje",dChunks:"Fragmentos",dChunksS:"por tema",dAsk:"Pregunta",dAskS:"lenguaje natural",dSearch:"Búsqueda",dAnswer:"Respuesta",dAnswerS:"clase + minuto",
+roleGrow:"Construcción completa",kRef:"Referencia",post:"Publicación en LinkedIn",
+osLead:"La plataforma que acompaña a cada miembro del club de empresarios.",
+drawOs:"Esquema: onboarding, índice de salud, metas trimestrales y sesiones de consejo conectados a la plataforma central",
+dProc:"Procesos",dRout:"Rutinas",dPeople:"Personas",dInd:"Indicadores",
+osMine:"La plataforma entera: el seguimiento de los miembros, el índice de salud, las metas, las sesiones de consejo y las automatizaciones con IA que quitan trabajo manual al equipo.",
+roleOs:"Construcción completa",
+restTitle:"Control de Descanso",restLead:"Solicitud, saldo y doble aprobación del descanso remunerado, en lugar de la hoja de cálculo.",
+drawRest:"Esquema: línea de tiempo de personas por semana, con los periodos de descanso rayados",
+restMine:"La plataforma entera: reglas de saldo y plazos, flujo de aprobación, perfiles de acceso, panel de RR. HH. y notificaciones.",
+roleRest:"Construcción completa",
+howTitle:"Cómo construyo",
+how1T:"Agentes que ejecutan",how1:"Asistentes que hacen, no solo responden: herramientas con confirmación y deshacer en RicoOS, texto y audio convertidos en agenda en OrgaDay, búsqueda en videoclases en AtomicGrowth.AI.",
+how2T:"Integraciones de verdad",how2:"WhatsApp por Evolution API y Z-API, Bitrix24, Google Workspace, Mercado Pago, correo y calendario. El sistema nuevo habla con lo que la empresa ya usa.",
+how3T:"Producto de punta a punta",how3:"De la idea al despliegue: interfaz, backend, base de datos, cobro y operación. Claude y ChatGPT son herramientas de trabajo diarias en el desarrollo.",
+aboutTitle:"Encantado, soy Carlos.",
+aboutBig:"Soy Analista de IA y Automatizaciones en Atomic Group, en Florianópolis, y creo productos digitales propios.",
+about1:"Mi trabajo une visión de negocio, desarrollo de producto e integración de herramientas. En los proyectos propios tomo problemas cotidianos, como organizar compromisos, comparar precios y no perder el contexto del trabajo, y los llevo hasta un producto funcionando.",
+endTitle:"¿Hablamos?",print:"Imprimir portafolio",kContact:"Contacto",kLangs:"Idiomas del sitio",kRev:"Revisión",top:"Volver arriba",
+altOrgaWeek:"OrgaDay: agenda semanal con compromisos de trabajo, personales y de familia",altOrgaWa:"Conversación de WhatsApp con el asistente de OrgaDay creando un compromiso",altCestaRes:"CestaLeve en el móvil: marcador de precios por supermercado",altCestaHome:"CestaLeve: página inicial con la lista de compras armada",altRico:"RicoOS: panel del día con radar, tareas y el asistente Enzo abierto",
+desc:"Carlos Moreira crea productos digitales desde cero y pone la IA a trabajar dentro de las empresas: agentes, RAG y automatizaciones con CRM y WhatsApp.",
+dModels:"Modelos de IA",
+dTeam:"Chat del equipo",
+dTeamS:"canales y comandos",
+dCrmS:"CRM y tareas",
+dData:"Datos de la empresa",
+kKind:"Tipo",
+kindPlat:"Plataforma de la empresa",
+kindTool:"Herramienta interna",
+osDoes:"Reúne el recorrido del miembro en un solo lugar: onboarding, un índice de salud que anticipa el riesgo de salida, metas trimestrales y sesiones de consejo con acta generada por IA.",
+dHealth:"Índice de salud",
+dGoals:"Metas trimestrales",
+dBoard:"Sesiones de consejo",
+viewTitle:"Visión de mercado",
+viewBody:"La tecnología solo importa cuando cambia el resultado del negocio. Antes de construir, quiero saber quién paga por el problema, cuánto cuesta hoy y qué ofrece ya el mercado. Eso decide qué vale la pena automatizar.",
+hat1T:"Administrador",
+hat1:"Leo el proceso, el costo y el indicador antes de escribir la primera línea de código.",
+hat2T:"Emprendedor",
+hat2:"Creo y opero productos propios, de la idea al cobro, y sé lo que es responder por el resultado.",
+hat3T:"Inversor",
+hat3:"Trato cada proyecto como una asignación de capital: riesgo, retorno y plazo.",
+hat4T:"Entusiasta de Bitcoin",
+hat4:"Estudio Bitcoin por lo que enseña sobre incentivos, escasez y sistemas abiertos."}
+};
+const root=document.documentElement;root.classList.add('js');
+const meta=document.querySelector('meta[name=description]');
+// O português vive no HTML; guardamos o original para poder voltar a ele.
+T.pt={desc:meta.content};
+document.querySelectorAll('[data-t]').forEach(el=>{T.pt[el.dataset.t]??=el.innerHTML});
+document.querySelectorAll('[data-t-alt]').forEach(el=>{T.pt[el.dataset.tAlt]??=el.alt});
+document.querySelectorAll('[data-t-label]').forEach(el=>{T.pt[el.dataset.tLabel]??=el.getAttribute('aria-label')});
+function setLang(next){
+  const lang=T[next]?next:'pt',d=T[lang];
+  root.lang={pt:'pt-BR',en:'en',es:'es'}[lang];
+  document.querySelectorAll('[data-t]').forEach(el=>{const v=d[el.dataset.t];if(v!=null)el.innerHTML=v});
+  document.querySelectorAll('[data-t-alt]').forEach(el=>{const v=d[el.dataset.tAlt];if(v)el.alt=v});
+  document.querySelectorAll('[data-t-label]').forEach(el=>{const v=d[el.dataset.tLabel];if(v)el.setAttribute('aria-label',v)});
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));
+  meta.content=d.desc;
+  try{localStorage.setItem('portfolio-lang',lang)}catch{}
+  const url=new URL(location);url.searchParams.set('lang',lang);history.replaceState(null,'',url);
+}
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+let saved;try{saved=localStorage.getItem('portfolio-lang')}catch{}
+const first=new URL(location).searchParams.get('lang')||saved;if(first&&first!=='pt')setLang(first);
+
+// A linha do tempo se preenche conforme a leitura avança; cada entrega acende ao entrar na tela.
+const log=document.querySelector('.log'),rels=document.querySelectorAll('.rel');
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -45% 0px'});
+  rels.forEach(r=>io.observe(r));
+}else rels.forEach(r=>r.classList.add('in'));
+let tick=false;
+function fill(){tick=false;const r=log.getBoundingClientRect();log.style.setProperty('--p',Math.max(0,Math.min(r.height,innerHeight*.55-r.top))+'px')}
+addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(fill)}},{passive:true});addEventListener('resize',fill);fill();
+document.querySelector('#imprimir').addEventListener('click',()=>print());
+document.querySelector('#ano').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
